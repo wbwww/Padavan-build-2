@@ -8,17 +8,17 @@ on:
         description: "Build Padavan"
         required: true
         default: "build"
-  # release:
-  #   types: [published]
+    release:
+     types: [published]
   push:
     tags:
       - "v*"
-  #  branches:
-  #    - master
-  #  schedule:
-  #    - cron: 0 8 * * 5
-  #watch:
-  #  types: [started]
+    branches:
+      - master
+  schedule:
+    - cron: 0 8 * * 5
+  watch:
+    types: [started]
 
 jobs:
   build:
@@ -113,7 +113,7 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER=n" >> .config #SOFTETHERVPN
           echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT=n" >> .config #SOFTETHERVPN
           echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD=n" >> .config #SOFTETHERVPN
-          echo "CONFIG_FIRMWARE_INCLUDE_SFE=n" >> .config #集成SFE加速
+          echo "CONFIG_FIRMWARE_INCLUDE_SFE=y" >> .config #集成SFE加速
           #
           echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y" >> .config #SS plus+
           echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=n" >> .config #集成v2ray执行文件（3.8M左右)，如果不集成，会从网上下载下来执行，不影响正常使用
@@ -132,7 +132,7 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_FRPS=n" >> .config #内网穿透FRPS
           #
           echo "CONFIG_FIRMWARE_INCLUDE_ADBYBY=y" >> .config #adbyby plus+
-          echo "CONFIG_FIRMWARE_INCLUDE_KOOLPROXY=y" >> .config #KP广告过滤
+          echo "CONFIG_FIRMWARE_INCLUDE_KOOLPROXY=n" >> .config #KP广告过滤
           #
           echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config #smartdns
           echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNSBIN=n" >> .config #smartdns二进制文件
@@ -144,7 +144,7 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_CADDY=n" >> .config #在线文件管理服务
           echo "CONFIG_FIRMWARE_INCLUDE_CADDYBIN=n" >> .config #集成caddu执行文件，此文件有13M,请注意固件大小。如果不集成，会从网上下载下来执行，不影响正常使用
           #     
-          echo "CONFIG_FIRMWARE_INCLUDE_WYY=y" >> .config #网易云解锁
+          echo "CONFIG_FIRMWARE_INCLUDE_WYY=n" >> .config #网易云解锁
           echo "CONFIG_FIRMWARE_INCLUDE_WYYBIN=n" >> .config #网易云解锁GO版本执行文件（4M多）注意固件超大小,不集成会自动下载
           #校园网相关
           echo "CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n" >> .config #MENTOHUST
