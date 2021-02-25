@@ -131,7 +131,6 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config
           #
           echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=y" >> .config #阿里DDNS
-          echo "CONFIG_FIRMWARE_INCLUDE_ZEROTIER=n" >> .config #zerotier ~1.3M
           #########################################################################################
           #自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
           #格式如下：
