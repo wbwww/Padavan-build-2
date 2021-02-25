@@ -98,15 +98,6 @@ jobs:
           sed -i '/CONFIG_FIRMWARE_INCLUDE_IPT2SOCKS/d' .config
           sed -i '/CONFIG_FIRMWARE_INCLUDE_MICROSOCKS/d' .config
           sed -i '/CONFIG_FIRMWARE_INCLUDE_SFE/d' .config #删除配置项SFE加速
-          #校园网相关
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_MENTOHUST/d' .config #删除配置项MENTOHUST
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT/d' .config #删除配置项SCUTCLIENT
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_NAPT66/d' .config
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT/d' .config
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_MINIEAP/d' .config
-          sed -i '/CONFIG_FIRMWARE_INCLUDE_DOGCOM/d' .config
-          #校园网相关
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
           ######################################################################
           #以下选项是定义你需要的功能（y=集成,n=忽略），重新写入到.config文件
           ######################################################################        
@@ -116,7 +107,6 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=n" >> .config #集成v2ray执行文件（3.8M左右)，如果不集成，会从网上下载下来执行，不影响正常使用
           echo "CONFIG_FIRMWARE_INCLUDE_SSOBFS=y" >> .config # simple-obfs混淆插件
           echo "CONFIG_FIRMWARE_INCLUDE_SSSERVER=n" >> .config #SS server
-          echo "CONFIG_FIRMWARE_INCLUDE_KUMASOCKS=y" >> .config #socks5
           #
           echo "CONFIG_FIRMWARE_INCLUDE_IPT2SOCKS=y" >> .config
           echo "CONFIG_FIRMWARE_INCLUDE_MICROSOCKS=y" >> .config
@@ -125,12 +115,6 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n" >> .config #DNSFORWARDER
           #
           echo "CONFIG_FIRMWARE_INCLUDE_ADBYBY=y" >> .config #adbyby plus+
-          #
-          echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config #smartdns
-          echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNSBIN=n" >> .config #smartdns二进制文件
-          echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config
-          #
-          echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=y" >> .config #阿里DDNS
           #########################################################################################
           #自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
           #格式如下：
@@ -154,26 +138,6 @@ jobs:
         with:
           name: Padavan-packages
           path: /opt/images
-      #上传到WeTransfer
-      - name: Upload firmware to WeTransfer
-        id: wetransfer
-        if: steps.organize.outputs.status == 'success'
-        run: |
-          curl -fsSL git.io/file-transfer | sh
-          ./transfer wet  -s -p 16 --no-progress /opt/images/*.trx 2>&1 | tee wetransfer.log
-          echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
-          echo "DOWNLOADURL2=$(cat wetransfer.log | grep -o -E "https?://[a-zA-Z0-9\.\/_&=@$%?~#-]*")" >> $GITHUB_ENV
-          echo "::set-output name=status::success"
-      #上传到奶牛快传
-      - name: Upload firmware to cowtransfer
-        id: cowtransfer
-        if: steps.wetransfer.outputs.status == 'success'
-        run: |
-          curl -sL https://git.io/cowtransfer | sh
-          ./cowtransfer-uploader -s -p 16 --hash /opt/images/*.trx 2>&1 | tee cowtransfer.log
-          echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
-          echo "DOWNLOADURL=$(cat cowtransfer.log | grep -o -E "https?://[a-zA-Z0-9\.\/_&=@$%?~#-]*")" >> $GITHUB_ENV
-          echo "::set-output name=status::success"
       - name: Update README.md
         if: steps.cowtransfer.outputs.status == 'success'
         run: |
