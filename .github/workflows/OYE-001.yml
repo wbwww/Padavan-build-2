@@ -1,5 +1,5 @@
 #修改TNAME: K2P-5.0 中的K2P-5.0为你需要编译的型号，注意名称要与configs/templates/目录下的名字相同
-name: C.K2P-5.0
+name: OYE-001
 
 on:
   workflow_dispatch:
@@ -69,7 +69,7 @@ jobs:
 
       - name: Build Firmware
         env:
-          TNAME: OYE-001 #PSG1218 K2P-5.0 K2P K2P_nano K2P_nano-5.0 PSG1208 PSG1218_nano
+          TNAME: OYE-001
         run: |
           cd /opt/rt-n56u/trunk
           if [ ! -f configs/templates/$TNAME.config ] ; then
